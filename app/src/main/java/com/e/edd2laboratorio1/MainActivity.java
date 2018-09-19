@@ -15,7 +15,10 @@ import android.view.View;
 import android.webkit.PermissionRequest;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.e.edd2laboratorio1.Classes.HuffmanEncoder;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,16 +29,20 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnOpenFile;
-    Button button;
+    Button btnOpenFile,button, btnComprimir, btnDescomprimir;
     EditText editText;
+    TextView tvComprimir, tvDescomprimir;
     private static final int PERMISSION_REQUEST_STORAGE = 1000;
     private static final int READ_REQUEST_CODE = 42;
+    String mainData;
+    HuffmanEncoder huffman = new HuffmanEncoder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tvComprimir = (TextView)findViewById(R.id.tvComprimir);
+        tvDescomprimir = (TextView)findViewById(R.id.tvDescomprimir);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
@@ -48,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         editText = (EditText)findViewById(R.id.editText);
-
         button = (Button)findViewById(R.id.btn);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -66,8 +72,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 fileSearch();
+
             }
         });
+
+        btnComprimir = (Button)findViewById(R.id.btnComprimir);
+        btnComprimir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                huffman.compressedData = huffman.compress(mainData); 
+            }
+        });
+
     }
 
     public void onRequestPermissionResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -94,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String readText(String input) {
-        File file = new File(input);
+        File file = new File(Environment.getExternalStorageDirectory(),input);
         StringBuilder text  = new StringBuilder();
         try {
 
@@ -143,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
                 String path = uri.getPath();
                 path = path.substring(path.indexOf(":")+1);
                 Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
-
-
+                mainData = readText(path);
+                tvComprimir.setText(mainData);
             }
         }
     }

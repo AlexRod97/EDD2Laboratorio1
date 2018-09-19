@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/tvDescomprimir"
         android:layout_width="124dp"
-        android:layout_height="263dp"
+        android:layout_height="121dp"
         android:layout_alignStart="@+id/btnDescomprimir"
         android:layout_alignTop="@+id/tvComprimir"
         android:text="TextView" />
@@ -45,9 +45,30 @@
     <TextView
         android:id="@+id/tvComprimir"
         android:layout_width="124dp"
-        android:layout_height="263dp"
+        android:layout_height="124dp"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/btnComprimir"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="183dp"
         android:text="TextView" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="122dp"
+        android:layout_marginStart="68dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="59dp"
+        android:text="Button" />
 </RelativeLayout>

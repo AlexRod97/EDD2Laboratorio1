@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tvComprimir = (TextView)findViewById(R.id.tvComprimir);
-        tvDescomprimir = (TextView)findViewById(R.id.tvDescomprimir);
+        tvComprimir = findViewById(R.id.tvComprimir);
+        tvDescomprimir = findViewById(R.id.tvDescomprimir);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},PERMISSION_REQUEST_STORAGE);
         }
 
-        editText = (EditText)findViewById(R.id.editText);
-        button = (Button)findViewById(R.id.btn);
+        editText = findViewById(R.id.editText);
+        button = findViewById(R.id.btn);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnOpenFile = (Button)findViewById(R.id.btnOpenFile);
+        btnOpenFile = findViewById(R.id.btnOpenFile);
 
         btnOpenFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnComprimir = (Button)findViewById(R.id.btnComprimir);
+        btnComprimir = findViewById(R.id.btnComprimir);
         btnComprimir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

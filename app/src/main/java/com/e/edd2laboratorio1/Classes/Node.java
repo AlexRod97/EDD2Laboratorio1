@@ -18,9 +18,7 @@ public class Node implements Comparable<Node> {
     }
 
     boolean isLeaf(){
-        if(left == null && right == null){
-            return true;
-        }return false;
+        return left == null && right == null;
     }
 
     @Override

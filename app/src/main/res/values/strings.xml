@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EDD2Laboratorio1</string>
+    <string name="abrir_archivo">Abrir archivo</string>
 </resources>

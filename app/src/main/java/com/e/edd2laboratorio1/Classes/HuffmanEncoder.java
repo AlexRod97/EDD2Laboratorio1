@@ -1,8 +1,18 @@
 package com.e.edd2laboratorio1.Classes;
 
+import android.os.Environment;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class HuffmanEncoder {
     private static final int ALPHABET_SIZE = 256;
@@ -10,7 +20,7 @@ public class HuffmanEncoder {
     Map<String,Integer> dataTable = new HashMap<String,Integer>();
     String[][] resultados = new String[256][2];
     static String encodedData = "";
-    String encode = "";
+    String encode = "", fileName = "";
 
     private static void BuildTable(Node root, String s, Map<Character, String> table) {
 
@@ -78,11 +88,11 @@ public class HuffmanEncoder {
         final Node root = BuildHuffmanTree(frq);
         final Map<Character, String> table = BuildTreeTable(root);
         encodedData = generateEncodedData(data,table);
-        //dataTable = GenerateFile(frq);
+        dataTable = GenerateFile(frq);
 
         return new HuffmanEncodeResult(encodedData,root);
     }
-/*
+
     public String decompress(final HuffmanEncodeResult result ){
         final StringBuilder resultBuilder  = new StringBuilder();
         Node current = result.getRoot();
@@ -114,10 +124,12 @@ public class HuffmanEncoder {
 
         try {
             String line = "";
-            File file = new File("C:\\MEIA\\huff.txt");
-            FileWriter Escribir = new FileWriter(file,true);
-            BufferedWriter bw = new BufferedWriter(Escribir);
-            bw.write(encodedData +  System.getProperty( "line.separator" ));
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "file" + ".txt");
+
+            FileOutputStream fos = null;
+            fos = new FileOutputStream(file);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+            bw.write(encodedData);
             for (int i = 0; i < 256; i++) {
                 if(frq[i] != 0) {
 
@@ -125,11 +137,11 @@ public class HuffmanEncoder {
                     table.put(String.valueOf(var), frq[i]);
                     line = "";
                     line =  String.valueOf(var) + "," + frq[i];
-                    bw.write(line + System.getProperty( "line.separator" ));
+                    bw.write(line);
+                    bw.newLine();
                 }
             }
             bw.close();
-            Escribir.close();
         }
         catch(IOException ex)
         {
@@ -142,7 +154,6 @@ public class HuffmanEncoder {
         try {
             Scanner inputFile = new Scanner(file);
             int i = 0, j =0, cont = 0;
-
             setMatrix();
             while(inputFile.hasNext()) {
                 if(cont == 0) {
@@ -160,8 +171,8 @@ public class HuffmanEncoder {
                 }
             }
         }
-        catch(FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo", "Error",WIDTH);
+         catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         final int[] frq = RebuildTable(resultados);
         final Node root = BuildHuffmanTree(frq);
@@ -194,7 +205,11 @@ public class HuffmanEncoder {
         }
     }
 
-*/
+    public void SetFileName(String name) {
+        fileName = name;
+    }
+
+
     static class HuffmanEncodeResult{
 
         final Node root;

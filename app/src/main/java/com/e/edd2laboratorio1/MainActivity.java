@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_STORAGE = 1000;
     private static final int READ_REQUEST_CODE = 42;
     String mainData;
+    File decompressionFile;
     HuffmanEncoder huffman = new HuffmanEncoder();
 
     @Override
@@ -72,15 +73,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 fileSearch();
-
             }
         });
 
-        btnComprimir = findViewById(R.id.btnComprimir);
+        btnComprimir = (Button) findViewById(R.id.btnComprimir);
         btnComprimir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 huffman.compressedData = huffman.compress(mainData);
+            }
+        });
+
+        btnDescomprimir = (Button) findViewById(R.id.btnDescomprimir);
+        btnDescomprimir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileSearch();
+                huffman.SetFileName(decompressionFile.getName());
+                tvDescomprimir.setText(huffman.decompress(huffman.ReadFile(decompressionFile)));
             }
         });
 
@@ -121,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 text.append("\n");
             }
             br.close();
+            decompressionFile = file;
         }
         catch (IOException e) {
             e.printStackTrace();

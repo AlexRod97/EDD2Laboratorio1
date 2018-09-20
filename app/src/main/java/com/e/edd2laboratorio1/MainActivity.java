@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         btnComprimir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                huffman.compressedData = huffman.compress(mainData); 
+                huffman.compressedData = huffman.compress(mainData);
             }
         });
 

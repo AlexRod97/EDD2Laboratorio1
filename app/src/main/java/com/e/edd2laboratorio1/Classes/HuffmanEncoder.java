@@ -82,10 +82,119 @@ public class HuffmanEncoder {
 
         return new HuffmanEncodeResult(encodedData,root);
     }
+/*
+    public String decompress(final HuffmanEncodeResult result ){
+        final StringBuilder resultBuilder  = new StringBuilder();
+        Node current = result.getRoot();
+        int i = 0;
+        while( i < result.GetEncodedData().length()){
 
-    //Insert code for decompression
+            while(!current.isLeaf()){
+                char bit = result.GetEncodedData().charAt(i);
+                if(bit == '1'){
+                    current = current.right;
+                }else if (bit == '0'){
+                    current = current.left;
+                }else{
+                    throw new IllegalArgumentException("Invalid bit" + bit );
+                }
+                i++;
+            }
+            resultBuilder.append(current.character);
+            current = result.getRoot();
+        }
 
+        return resultBuilder.toString();
 
+    }
+
+    public Map<String,Integer> GenerateFile(int[] frq) {
+
+        Map<String,Integer> table = new HashMap<String,Integer>();
+
+        try {
+            String line = "";
+            File file = new File("C:\\MEIA\\huff.txt");
+            FileWriter Escribir = new FileWriter(file,true);
+            BufferedWriter bw = new BufferedWriter(Escribir);
+            bw.write(encodedData +  System.getProperty( "line.separator" ));
+            for (int i = 0; i < 256; i++) {
+                if(frq[i] != 0) {
+
+                    char var = (char)i;
+                    table.put(String.valueOf(var), frq[i]);
+                    line = "";
+                    line =  String.valueOf(var) + "," + frq[i];
+                    bw.write(line + System.getProperty( "line.separator" ));
+                }
+            }
+            bw.close();
+            Escribir.close();
+        }
+        catch(IOException ex)
+        {
+
+        }
+        return table;
+    }
+
+    public HuffmanEncodeResult ReadFile(File file) {
+        try {
+            Scanner inputFile = new Scanner(file);
+            int i = 0, j =0, cont = 0;
+
+            setMatrix();
+            while(inputFile.hasNext()) {
+                if(cont == 0) {
+                    encode = inputFile.nextLine();
+                    cont++;
+                }
+                else {
+                    String linea = inputFile.nextLine();
+                    String[] splited = linea.split(",");
+                    resultados[i][j] = String.valueOf(splited[0]);
+                    j++;
+                    resultados[i][j] = String.valueOf(splited[1]);
+                    i++;
+                    j=0;
+                }
+            }
+        }
+        catch(FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo", "Error",WIDTH);
+        }
+        final int[] frq = RebuildTable(resultados);
+        final Node root = BuildHuffmanTree(frq);
+        final Map<Character,String> table = BuildTreeTable(root);
+        return new HuffmanEncodeResult(encode,root);
+    }
+
+    private int[] RebuildTable(String[][] readTable) {
+        final int[] freq = new int[ALPHABET_SIZE];
+
+        for (int i = 0; i < 256; i++) {
+            char character = readTable[i][0].charAt(0);
+            int ascii = (int)character;
+            if (ascii > 0) {
+                freq[ascii] = Integer.valueOf(readTable[i][1]);
+            }
+            else {
+                freq[i] = 0;
+            }
+
+        }
+        return freq;
+    }
+
+    private void setMatrix() {
+        for (int i = 0; i < 256; i++) {
+            for (int j = 0; j < 2; j++) {
+                resultados[i][j] = String.valueOf(0);
+            }
+        }
+    }
+
+*/
     static class HuffmanEncodeResult{
 
         final Node root;

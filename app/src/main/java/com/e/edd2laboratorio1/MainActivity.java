@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 huffman.SetFileName(decompressionFile.getName());
-                tvDescomprimir.setText(huffman.decompress(huffman.ReadFile(decompressionFile)));
+                String decompression = huffman.decompress(huffman.ReadFile(decompressionFile));
+                tvDescomprimir.setText(decompression);
             }
         });
 
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             String line;
             while((line = br.readLine()) != null) {
                 text.append(line);
-                text.append("\n");
+               // text.append("\n");
             }
             br.close();
             decompressionFile = file;

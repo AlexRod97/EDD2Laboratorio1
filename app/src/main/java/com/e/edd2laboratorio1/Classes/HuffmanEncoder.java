@@ -125,15 +125,15 @@ public class HuffmanEncoder {
         try {
             String line = "";
             File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "file" + ".txt");
+            char var = ' ';
 
             FileOutputStream fos = null;
             fos = new FileOutputStream(file);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-            bw.write(encodedData);
+            bw.write(encodedData.trim());
             for (int i = 0; i < 256; i++) {
                 if(frq[i] != 0) {
-
-                    char var = (char)i;
+                     var = (char)i;
                     table.put(String.valueOf(var), frq[i]);
                     line = "";
                     line =  String.valueOf(var) + "," + frq[i];
@@ -197,7 +197,6 @@ public class HuffmanEncoder {
                     freq[i] = 0;
                 }
             }
-
         }
         return freq;
     }

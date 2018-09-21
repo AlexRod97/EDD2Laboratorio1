@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         btnDescomprimir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fileSearch();
                 huffman.SetFileName(decompressionFile.getName());
                 tvDescomprimir.setText(huffman.decompress(huffman.ReadFile(decompressionFile)));
             }

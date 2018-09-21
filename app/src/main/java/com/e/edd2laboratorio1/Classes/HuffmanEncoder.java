@@ -184,13 +184,17 @@ public class HuffmanEncoder {
         final int[] freq = new int[ALPHABET_SIZE];
 
         for (int i = 0; i < 256; i++) {
-            char character = readTable[i][0].charAt(0);
-            int ascii = (int)character;
-            if (ascii > 0) {
-                freq[ascii] = Integer.valueOf(readTable[i][1]);
-            }
-            else {
-                freq[i] = 0;
+            String temp = readTable[i][0];
+            //TODO: si compones tu logica, proba quitar el if, si no te funciona,entonces dejalo como esta.
+            if(temp != null && !temp.equals("")) {
+                char character = temp.charAt(0);
+
+                int ascii = (int) character;
+                if (ascii > 0) {
+                    freq[ascii] = Integer.valueOf(readTable[i][1]);
+                } else {
+                    freq[i] = 0;
+                }
             }
 
         }

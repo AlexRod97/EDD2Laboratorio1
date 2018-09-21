@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             String line;
             while((line = br.readLine()) != null) {
                 text.append(line);
-               // text.append("\n");
+                //text.append("\n");
             }
             br.close();
             decompressionFile = file;

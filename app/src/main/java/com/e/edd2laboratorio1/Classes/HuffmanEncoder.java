@@ -131,14 +131,17 @@ public class HuffmanEncoder {
             fos = new FileOutputStream(file);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
             bw.write(encodedData.trim());
+
             for (int i = 0; i < 256; i++) {
-                if(frq[i] != 0) {
-                     var = (char)i;
+                if(frq[i] != 0 && i != 10) {
+                    var = (char)i;
+                    bw.newLine();
                     table.put(String.valueOf(var), frq[i]);
                     line = "";
+                    bw.write("");
                     line =  String.valueOf(var) + "," + frq[i];
                     bw.write(line);
-                    bw.newLine();
+                    //bw.newLine();
                 }
             }
             bw.close();

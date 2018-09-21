@@ -182,6 +182,7 @@ public class HuffmanEncoder {
 
     private int[] RebuildTable(String[][] readTable) {
         final int[] freq = new int[ALPHABET_SIZE];
+        String num;
 
         for (int i = 0; i < 256; i++) {
             char character = readTable[i][0].charAt(0);

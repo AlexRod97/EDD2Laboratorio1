@@ -1,16 +1,22 @@
 package com.e.edd2laboratorio1.Classes;
 
+import android.os.Environment;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.*;
 
 public class LZW {
 
     public static List<Integer> compress(String uncompress){
 
-        int size = 256; //por caracterees ASCII
+        int size = 256; //por caracteres ASCII
         Map<String,Integer> dictionary = new HashMap<>();
-        for (int i = 0; i < size; i++){
+        for (int i = 1; i < size; i++){
             dictionary.put("" + (char)i, i);
         }
 
@@ -21,7 +27,7 @@ public class LZW {
 
             String pc = p + c;
 
-            if(dictionary.containsKey(pc.trim())){
+            if(dictionary.containsKey(pc)){
                 p = pc;
             }else{
                 result.add(dictionary.get(p));
@@ -36,6 +42,8 @@ public class LZW {
         if(!p.equals("")){
             result.add(dictionary.get(p));
         }
+
+        GenerateFile(result);
 
         return result;
 
@@ -72,6 +80,38 @@ public class LZW {
         }
 
         return result.toString();
+    }
+
+    public static Map<String,Integer> GenerateFile(List frq) {
+
+        Map<String,Integer> table = new HashMap<String,Integer>();
+
+        try {
+            String line = "";
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "lzwFile" + ".txt");
+            char var = ' ';
+
+            FileOutputStream fos = null;
+            fos = new FileOutputStream(file);
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+            for (int i = 0; i < frq.size(); i++) {
+                   // var = (char)i;
+                    bw.newLine();
+                  //  table.put(String.valueOf(var), frq[i]);
+                    line = "";
+                    bw.write("");
+                    line =  String.valueOf(frq.get(i));
+                    bw.write(line);
+
+            }
+            bw.close();
+        }
+        catch(IOException ex)
+        {
+
+        }
+        return table;
     }
 
 }

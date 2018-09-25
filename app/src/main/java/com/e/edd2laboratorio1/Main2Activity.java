@@ -78,7 +78,7 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String decompression = compressionLZW.Decompress(compressionLZW.ReadFile(decompressionFile));
-                tvDescomprimir.setText(decompression);
+                tvComprimir.setText(decompression);
             }
         });
 

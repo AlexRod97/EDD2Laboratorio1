@@ -14,6 +14,8 @@ import java.util.*;
 
 public class LZW {
 
+    static Map<String,Integer> singleDictionary = new LinkedHashMap<>();
+    static Map<Integer,String> allCharsDictionary = new LinkedHashMap<>();
     List<Integer> readData = new ArrayList<>();
     String encode = "";
 
@@ -24,16 +26,18 @@ public class LZW {
         String c = "";
         int count  =1;
         Map<String,Integer> dictionary = new LinkedHashMap<>();
-        List<String> result = new ArrayList<>();
-
+        List<Character> result = new ArrayList<>();
+        StringBuilder singles = new StringBuilder();
 
         for (int i = 0; i < uncompress.length(); i++){
 
             if(!dictionary.containsKey(String.valueOf(uncompress.charAt(i)))) {
                 dictionary.put(String.valueOf(uncompress.charAt(i)), count++);
+                singles.append(uncompress.charAt(i));
+                singles.append(",");
             }
         }
-        //TODO Encontrar por que no crea en la tabla la combinación de más de dos caracteres
+
         for (int j = 0; j < uncompress.length(); j++){
             c = String.valueOf(uncompress.charAt(j));
             String pc = p + c;
@@ -42,54 +46,53 @@ public class LZW {
                 if(!p.equals("")) {
                     dictionary.put(pc, count++);
                 }
-                int a = dictionary.get(p);
-                result.add(String.valueOf(a));
+                int a = dictionary.get(p) + 92;
+                result.add((char)a);
                 p = c;
-                //TODO Convertir a chars los valores
             }else {
                 p = pc;
             }
 
+            if(j == uncompress.length()-1) {
+                int a = dictionary.get(p) + 92;
+                result.add((char)a);
+            }
         }
 
-        GenerateFile(result);
-        //Ya guarda y lee el archivo para comprobar la descompresión
+        GenerateFile(result,singles);
     }
 
     public static String Decompress(List<Integer> compress){
 
-        int size = 256;
+        String p = "";
+        String c = "";
+        int ip = 0;
+        int ic = 0;
+        int count = singleDictionary.size()+1;
+        StringBuilder word = new StringBuilder();
 
-        Map<Integer,String> dictionary = new HashMap<>();
+        for (int i = 0; i < compress.size(); i++){
+            ic = compress.get(i);
+            c = String.valueOf(singleDictionary.keySet().toArray()[ic-1]);
+            String pc = p + c;
 
-        for(int i = 0; i < size; i++){
-            dictionary.put(i,""+(char)i); //se inicializa el dictionario
-        }
-
-        String p = "" + (char)(int)compress.remove(0);
-        StringBuffer result = new StringBuffer(); //se puede usar StringBuilder si asi se desea
-
-        for (int k : compress){
-            String data = null;
-            if (dictionary.containsKey(k)){
-                data = dictionary.get(k);
-            }else if(k == size){
-                data = p + p.charAt(0); //se toma solamente el primer dato de la siguiente palabra
-            }else{
-                //se llama al evento de mensaje en Android para no tirar exception
-                Toast.makeText(null,"Archivo mal compreso",Toast.LENGTH_LONG);
-
+            if(!singleDictionary.containsKey(pc)) {
+                if(!p.equals("")) {
+                    singleDictionary.put(pc, count++);
+                }
+                word.append(c);
+                p = c;
+            }else {
+                p = c;
+                word.append(p);
             }
-
-            result.append(data);
-            dictionary.put(size++, p + data.charAt(0));
-            p = data;
         }
 
-        return result.toString();
+
+        return word.toString();
     }
 
-    public static Map<String,Integer> GenerateFile(List frq) {
+    public static Map<String,Integer> GenerateFile(List frq, StringBuilder single) {
 
         Map<String,Integer> table = new HashMap<String,Integer>();
 
@@ -102,16 +105,16 @@ public class LZW {
             fos = new FileOutputStream(file);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 
-            for (int i = 0; i < frq.size(); i++) {
-                   // var = (char)i;
-                    bw.newLine();
-                  //  table.put(String.valueOf(var), frq[i]);
-                    line = "";
-                    bw.write("");
-                    line =  String.valueOf(frq.get(i));
-                    bw.write(line);
+            bw.write(String.valueOf(single));
+            bw.newLine();
 
+            for (int i = 0; i < frq.size(); i++) {
+                line = "";
+                bw.write("");
+                line =  String.valueOf(frq.get(i));
+                bw.write(line + ",");
             }
+
             bw.close();
         }
         catch(IOException ex)
@@ -124,11 +127,24 @@ public class LZW {
     public List<Integer> ReadFile(File file) {
         try {
             Scanner inputFile = new Scanner(file);
-            int i = 0, j =0, cont = 0;
+            int  j =1, cont = 0;
             while(inputFile.hasNext()) {
-
                 String linea = inputFile.nextLine();
-                readData.add(Integer.valueOf(linea));
+                String[] splited = linea.split(",");
+
+                if(cont == 0) {
+                    for (int i = 0; i < splited.length; i++) {
+                        singleDictionary.put(splited[i],j++);
+                        cont++;
+                    }
+                }
+                else {
+                    for (int i = 0; i < splited.length; i++) {
+                        int dato = Character.valueOf(splited[i].charAt(0));
+                        dato = dato - 92;
+                        readData.add(Integer.valueOf(dato));
+                    }
+                }
             }
         }
         catch (FileNotFoundException e) {

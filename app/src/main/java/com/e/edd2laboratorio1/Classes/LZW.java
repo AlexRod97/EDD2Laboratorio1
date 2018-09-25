@@ -5,48 +5,52 @@ import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.Inet4Address;
 import java.util.*;
 
 public class LZW {
 
-    public static List<Integer> compress(String uncompress){
+    List<Integer> readData = new ArrayList<>();
+    String encode = "";
+
+    public static void compress(String uncompress){
 
         int size = 256; //por caracteres ASCII
-        Map<String,Integer> dictionary = new HashMap<>();
-        for (int i = 1; i < size; i++){
-            dictionary.put("" + (char)i, i);
-        }
+        String p = "", c = "";
+        int count  =1;
+        Map<String,Integer> dictionary = new LinkedHashMap<>();
+        List<String> result = new ArrayList<>();
 
-        String p = "";
-        List<Integer> result = new ArrayList<>();
 
-        for(char c: uncompress.toCharArray()){
+        for (int i = 0; i < uncompress.length(); i++){
 
-            String pc = p + c;
-
-            if(dictionary.containsKey(pc)){
-                p = pc;
-            }else{
-                result.add(dictionary.get(p));
-                //agregamos previous + current al diccionario
-                dictionary.put(pc,size++);
-                p = "" + c;
+            if(!dictionary.containsKey(String.valueOf(uncompress.charAt(i)))) {
+                dictionary.put(String.valueOf(uncompress.charAt(i)), count++);
             }
         }
+        //TODO Encontrar por que no crea en la tabla la combinación de más de dos caracteres
+        for (int j = 0; j < uncompress.length(); j++){
+            c = String.valueOf(uncompress.charAt(j));
+            String pc = p + c;
 
-        //output
-
-        if(!p.equals("")){
-            result.add(dictionary.get(p));
+            if(!dictionary.containsKey(String.valueOf(pc))) {
+                if(p != "") {
+                    dictionary.put(pc, count++);
+                }
+                int a = dictionary.get(p);
+                result.add(String.valueOf(a));
+                //TODO Convertir a chars los valores
+            }
+            //Aqui CREO que es la razón por la que no logra hacer la tabla completa, tal vez falta una condición de cuando si está contenido el pc
+            p = c;
         }
 
         GenerateFile(result);
-
-        return result;
-
+        //Ya guarda y lee el archivo para comprobar la descompresión
     }
 
     public static String Decompress(List<Integer> compress){
@@ -112,6 +116,23 @@ public class LZW {
 
         }
         return table;
+    }
+
+    public List<Integer> ReadFile(File file) {
+        try {
+            Scanner inputFile = new Scanner(file);
+            int i = 0, j =0, cont = 0;
+            while(inputFile.hasNext()) {
+
+                String linea = inputFile.nextLine();
+                readData.add(Integer.valueOf(linea));
+            }
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return readData;
     }
 
 }

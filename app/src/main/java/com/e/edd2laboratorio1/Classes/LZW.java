@@ -88,7 +88,6 @@ public class LZW {
             }
         }
 
-
         return word.toString();
     }
 

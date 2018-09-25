@@ -20,7 +20,8 @@ public class LZW {
     public static void compress(String uncompress){
 
         int size = 256; //por caracteres ASCII
-        String p = "", c = "";
+        String p = "";
+        String c = "";
         int count  =1;
         Map<String,Integer> dictionary = new LinkedHashMap<>();
         List<String> result = new ArrayList<>();
@@ -38,15 +39,17 @@ public class LZW {
             String pc = p + c;
 
             if(!dictionary.containsKey(String.valueOf(pc))) {
-                if(p != "") {
+                if(!p.equals("")) {
                     dictionary.put(pc, count++);
                 }
                 int a = dictionary.get(p);
                 result.add(String.valueOf(a));
+                p = c;
                 //TODO Convertir a chars los valores
+            }else {
+                p = pc;
             }
-            //Aqui CREO que es la razón por la que no logra hacer la tabla completa, tal vez falta una condición de cuando si está contenido el pc
-            p = c;
+
         }
 
         GenerateFile(result);

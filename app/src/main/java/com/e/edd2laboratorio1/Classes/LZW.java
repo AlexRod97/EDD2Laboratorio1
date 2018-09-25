@@ -46,7 +46,7 @@ public class LZW {
                 if(!p.equals("")) {
                     dictionary.put(pc, count++);
                 }
-                int a = dictionary.get(p) + 92;
+                int a = dictionary.get(p);
                 result.add((char)a);
                 p = c;
             }else {
@@ -54,7 +54,7 @@ public class LZW {
             }
 
             if(j == uncompress.length()-1) {
-                int a = dictionary.get(p) + 92;
+                int a = dictionary.get(p);
                 result.add((char)a);
             }
         }
@@ -139,9 +139,8 @@ public class LZW {
                     }
                 }
                 else {
-                    for (int i = 0; i < splited.length; i++) {
+                    for (int i = 0; i < (splited.length); i++) {
                         int dato = Character.valueOf(splited[i].charAt(0));
-                        dato = dato - 92;
                         readData.add(Integer.valueOf(dato));
                     }
                 }

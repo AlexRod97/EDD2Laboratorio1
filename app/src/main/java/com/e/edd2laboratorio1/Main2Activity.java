@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,7 @@ public class Main2Activity extends AppCompatActivity {
         tvComprimir = findViewById(R.id.tvComprimir);
         tvDescomprimir = findViewById(R.id.tvDescomprimir);
 
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},PERMISSION_REQUEST_STORAGE);
@@ -67,12 +69,16 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
+
+
         btnComprimir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 compressionLZW.compress(mainData);
             }
         });
+
+        btnDescomprimir = findViewById(R.id.btnDescomprimir);
 
         btnDescomprimir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +91,7 @@ public class Main2Activity extends AppCompatActivity {
 
     }
 
+    @NonNull
     private String readText(String input) {
         File file = new File(Environment.getExternalStorageDirectory(),input);
         StringBuilder text  = new StringBuilder();

@@ -27,14 +27,12 @@ public class LZW {
         int count  =1;
         Map<String,Integer> dictionary = new LinkedHashMap<>();
         List<Character> result = new ArrayList<>();
-        StringBuilder singles = new StringBuilder();
-
+        List<String> singles = new ArrayList<String>();
         for (int i = 0; i < uncompress.length(); i++){
 
             if(!dictionary.containsKey(String.valueOf(uncompress.charAt(i)))) {
                 dictionary.put(String.valueOf(uncompress.charAt(i)), count++);
-                singles.append(uncompress.charAt(i));
-                singles.append(",");
+                singles.add(String.valueOf(uncompress.charAt(i)));
             }
         }
 
@@ -91,7 +89,7 @@ public class LZW {
         return word.toString();
     }
 
-    public static Map<String,Integer> GenerateFile(List frq, StringBuilder single) {
+    public static Map<String,Integer> GenerateFile(List frq, List<String> single) {
 
         Map<String,Integer> table = new HashMap<String,Integer>();
 
@@ -103,15 +101,27 @@ public class LZW {
             FileOutputStream fos = null;
             fos = new FileOutputStream(file);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+            for(int i =0; i < single.size(); i++) {
 
-            bw.write(String.valueOf(single));
+                if(i == single.size()-1){
+                    bw.write(single.get(i));
+                }
+                else {
+                    bw.write(single.get(i) + ",");
+                }
+            }
             bw.newLine();
 
             for (int i = 0; i < frq.size(); i++) {
                 line = "";
                 bw.write("");
-                line =  String.valueOf(frq.get(i));
-                bw.write(line + ",");
+                if(i == frq.size()-1){
+                    bw.write(frq.get(i).toString());
+                }
+                else {
+                    bw.write(frq.get(i) + ",");
+                }
+
             }
 
             bw.close();

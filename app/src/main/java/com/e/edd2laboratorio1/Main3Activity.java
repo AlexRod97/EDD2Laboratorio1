@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class Main3Activity extends AppCompatActivity {
 
-    Button btnHuffman, btnLZW;
+    Button btnHuffman, btnLZW, btnCrear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +17,7 @@ public class Main3Activity extends AppCompatActivity {
 
         btnHuffman = findViewById(R.id.btnHuffman);
         btnLZW = findViewById(R.id.btnLZW);
+        btnCrear = findViewById(R.id.btnCrear);
 
         btnHuffman.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,9 +30,18 @@ public class Main3Activity extends AppCompatActivity {
         btnLZW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent huffman = new Intent(Main3Activity.this, Main2Activity.class);
-                startActivity(huffman);
+                Intent LZW = new Intent(Main3Activity.this, Main2Activity.class);
+                startActivity(LZW);
             }
         });
+
+        btnCrear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Crear = new Intent(Main3Activity.this, Main4Activity.class);
+                startActivity(Crear);
+            }
+        });
+
     }
 }

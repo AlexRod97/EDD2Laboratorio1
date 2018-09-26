@@ -10,10 +10,19 @@
         android:id="@+id/btnLZW"
         android:layout_width="190dp"
         android:layout_height="110dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="181dp"
+        android:text="LZW" />
+
+    <Button
+        android:id="@+id/btnCrear"
+        android:layout_width="190dp"
+        android:layout_height="110dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="151dp"
-        android:text="LZW" />
+        android:layout_marginBottom="81dp"
+        android:text="Crear un archivo" />
 
     <Button
         android:id="@+id/btnHuffman"
@@ -21,6 +30,6 @@
         android:layout_height="110dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="105dp"
+        android:layout_marginTop="34dp"
         android:text="Huffman" />
 </RelativeLayout>

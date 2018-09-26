@@ -3,11 +3,15 @@ package com.e.edd2laboratorio1.Classes;
 import android.os.Environment;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.Inet4Address;
 import java.util.*;
@@ -79,9 +83,9 @@ public class LZW {
                     singleDictionary.put(pc, count++);
                 }
                 word.append(c);
-                p = c;
+                p = String.valueOf(c.charAt(0));
             }else {
-                p = c;
+                p = String.valueOf(c.charAt(0));;
                 word.append(p);
             }
         }
@@ -97,33 +101,30 @@ public class LZW {
             String line = "";
             File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "lzwFile" + ".txt");
             char var = ' ';
+            StringBuilder map = new StringBuilder();
+            StringBuilder compression = new StringBuilder();
 
             FileOutputStream fos = null;
             fos = new FileOutputStream(file);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+            bw.flush();
             for(int i =0; i < single.size(); i++) {
 
                 if(i == single.size()-1){
-                    bw.write(single.get(i));
+                    map.append(single.get(i) + "|");
                 }
                 else {
-                    bw.write(single.get(i) + ",");
+                    map.append(single.get(i));
                 }
             }
-            bw.newLine();
 
             for (int i = 0; i < frq.size(); i++) {
-                line = "";
-                bw.write("");
-                if(i == frq.size()-1){
-                    bw.write(frq.get(i).toString());
-                }
-                else {
-                    bw.write(frq.get(i) + ",");
-                }
-
+                int element = Integer.valueOf((char)frq.get(i));
+                compression.append(frq.get(i).toString());
             }
 
+            bw.write(map.toString());
+            bw.write(compression.toString());
             bw.close();
         }
         catch(IOException ex)
@@ -135,27 +136,40 @@ public class LZW {
 
     public List<Integer> ReadFile(File file) {
         try {
-            Scanner inputFile = new Scanner(file);
             int  j =1, cont = 0;
-            while(inputFile.hasNext()) {
-                String linea = inputFile.nextLine();
-                String[] splited = linea.split(",");
+            BufferedReader br = new BufferedReader((new FileReader(file)));
+            String line, map, ascii;
+            StringBuilder text = new StringBuilder();
+            FileInputStream fileStream = new FileInputStream(file);
+            byte[] values = new byte[(int)file.length()];
+            fileStream.read(values);
+            fileStream.close();
+            String content = new String(values,"UTF-8");
 
-                if(cont == 0) {
-                    for (int i = 0; i < splited.length; i++) {
-                        singleDictionary.put(splited[i],j++);
-                        cont++;
-                    }
+            line = content;
+
+            boolean flag = true;
+
+            for(int i =0; i < line.length(); i++) {
+                String Char = String.valueOf(line.charAt(i));
+
+                if (Char.equals("|")) {
+                    flag = false;
                 }
                 else {
-                    for (int i = 0; i < (splited.length); i++) {
-                        int dato = Character.valueOf(splited[i].charAt(0));
+                    if(flag) {
+                        singleDictionary.put(String.valueOf(line.charAt(i)), j++);
+                    }
+                    else {
+                        int dato = Character.valueOf(line.charAt(i));
+                        String element = String.valueOf(line.charAt(i));
                         readData.add(Integer.valueOf(dato));
                     }
                 }
             }
+
         }
-        catch (FileNotFoundException e) {
+       catch (IOException e) {
             e.printStackTrace();
         }
 

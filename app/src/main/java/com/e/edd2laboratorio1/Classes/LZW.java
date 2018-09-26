@@ -85,7 +85,7 @@ public class LZW {
                 word.append(c);
                 p = String.valueOf(c.charAt(0));
             }else {
-                p = String.valueOf(c.charAt(0));;
+                p = String.valueOf(c.charAt(0));
                 word.append(p);
             }
         }

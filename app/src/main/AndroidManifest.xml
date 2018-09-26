@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main4Activity"></activity>
+        <activity android:name=".Main4Activity" />
+        <activity android:name=".ListadoActivity"></activity>
     </application>
 
 </manifest>

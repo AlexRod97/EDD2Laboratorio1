@@ -9,6 +9,7 @@ import android.widget.Button;
 public class Main3Activity extends AppCompatActivity {
 
     Button btnHuffman, btnLZW, btnCrear;
+    Button btnIrComp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +19,7 @@ public class Main3Activity extends AppCompatActivity {
         btnHuffman = findViewById(R.id.btnHuffman);
         btnLZW = findViewById(R.id.btnLZW);
         btnCrear = findViewById(R.id.btnCrear);
+        btnIrComp = findViewById(R.id.btnIrCompresiones);
 
         btnHuffman.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,5 +45,13 @@ public class Main3Activity extends AppCompatActivity {
             }
         });
 
+        btnIrComp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent compresiones;
+                compresiones = new Intent(Main3Activity.this,ListadoActivity.class);
+                startActivity(compresiones);
+            }
+        });
     }
 }

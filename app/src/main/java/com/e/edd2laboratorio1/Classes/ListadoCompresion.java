@@ -101,7 +101,7 @@ public class ListadoCompresion {
             porcentaje = porcentaje.substring(0,1);
 
             bw.write(porcentaje);
-
+            bw.newLine();
             bw.flush();
             bw.close();
 

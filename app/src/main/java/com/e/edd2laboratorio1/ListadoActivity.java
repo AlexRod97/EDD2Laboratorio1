@@ -8,6 +8,9 @@ import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.e.edd2laboratorio1.Classes.ListadoCompresion;
+
+import java.io.IOException;
 import java.util.Stack;
 
 public class ListadoActivity extends AppCompatActivity {
@@ -22,6 +25,15 @@ public class ListadoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado);
 
+
+        //Adapter = new playlistUI_Adapter(Main3Activity.this,this.data);
+        //lvPlay.setAdapter(Adapter);
+
+       try {
+           data = ListadoCompresion.ObtenerDatos();
+       }catch (IOException e){
+           e.printStackTrace();
+       }
 
     }
 

@@ -1,8 +1,6 @@
 package com.e.edd2laboratorio1.Classes;
 
 import android.os.Environment;
-import android.support.annotation.RequiresPermission;
-import android.util.Xml;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,7 +16,7 @@ public class ListadoCompresion {
 
     static File file;
     static String path;
-    static Stack<String> obtenerLista;
+    static Stack<String> obtenerLista = new Stack<>();
 
     /**
      * Crear un archivo vacio con el nombre "MisCompresiones.txt"
@@ -28,12 +26,13 @@ public class ListadoCompresion {
      */
     public static boolean CrearArchivo() throws IOException {
 
-        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),
-                "MisCompresiones"+".txt");
+        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"MisCompresiones"+".txt");
 
-        boolean exist = file.createNewFile();
-
-        if (exist){
+        boolean exist = file.exists();
+        if(!exist) {
+            file.createNewFile();
+        }
+        else {
             throw new IOException("el archivo ya existe");
         }
 
@@ -87,18 +86,16 @@ public class ListadoCompresion {
             String factor = "";
 
             razon = Double.toString(razonCompresion);
-            razon = razon.substring(0,4);
-
             factor = Double.toString(factorCompresion);
-            factor = factor.substring(0,4);
 
             bw.write(razon);
+            bw.write(separador);
             bw.write(factor);
+            bw.write(separador);
 
             porcentajeReduccion = (ori-comp)*100;
 
             String porcentaje = Double.toString(porcentajeReduccion);
-            porcentaje = porcentaje.substring(0,1);
 
             bw.write(porcentaje);
             bw.newLine();
@@ -106,7 +103,7 @@ public class ListadoCompresion {
             bw.close();
 
         }else {
-            throw new IOException("El archivo no existe o esta siendo utilizado");
+            throw new IOException("El archivo no existe o está siendo utilizado");
         }
 
         return true;

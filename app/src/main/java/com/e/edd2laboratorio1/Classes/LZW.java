@@ -1,27 +1,28 @@
 package com.e.edd2laboratorio1.Classes;
 
 import android.os.Environment;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.net.Inet4Address;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LZW {
 
     static Map<String,Integer> singleDictionary = new LinkedHashMap<>();
-    static Map<Integer,String> allCharsDictionary = new LinkedHashMap<>();
     List<Integer> readData = new ArrayList<>();
     String encode = "";
+    static String originalFilename, compressedFilename, originalFilePath;
+    static ListadoCompresion listado = new ListadoCompresion();
 
     public static void compress(String uncompress){
 
@@ -60,7 +61,6 @@ public class LZW {
                 result.add((char)a);
             }
         }
-
         GenerateFile(result,singles);
     }
 
@@ -99,7 +99,8 @@ public class LZW {
 
         try {
             String line = "";
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "lzwFile" + ".txt");
+
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),compressedFilename + ".txt");
             char var = ' ';
             StringBuilder map = new StringBuilder();
             StringBuilder compression = new StringBuilder();
@@ -126,6 +127,7 @@ public class LZW {
             bw.write(map.toString());
             bw.write(compression.toString());
             bw.close();
+            listado.EscribirArchivo(originalFilename, file.getAbsolutePath(), compressedFilename, originalFilePath);
         }
         catch(IOException ex)
         {
@@ -174,6 +176,12 @@ public class LZW {
         }
 
         return readData;
+    }
+
+    public void setFilenames(String name, String path) {
+        originalFilename = name;
+        compressedFilename = name + "_comp";
+        originalFilePath = path;
     }
 
 }

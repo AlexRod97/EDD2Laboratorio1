@@ -2,17 +2,15 @@ package com.e.edd2laboratorio1;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.webkit.PermissionRequest;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,7 +20,6 @@ import com.e.edd2laboratorio1.Classes.HuffmanEncoder;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -158,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     private void fileSearch() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/*");
+        intent.setType("*/*");
         startActivityForResult(intent,READ_REQUEST_CODE);
     }
 

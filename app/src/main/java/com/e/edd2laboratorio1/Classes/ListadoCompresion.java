@@ -28,12 +28,10 @@ public class ListadoCompresion {
 
         file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"MisCompresiones"+".txt");
 
-        boolean exist = file.exists();
-        if(!exist) {
-            file.createNewFile();
-        }
-        else {
-            throw new IOException("el archivo ya existe");
+        boolean exist = file.createNewFile();
+
+        if (exist){
+            throw new IOException();
         }
 
         return true;

@@ -76,20 +76,49 @@ public class LZW {
         for (int i = 0; i < compress.size(); i++){
             ic = compress.get(i);
             c = String.valueOf(singleDictionary.keySet().toArray()[ic-1]);
-            String pc = p + c;
+            String pc = p + String.valueOf(c.charAt(0));
 
+
+
+            //si no esta en el diccionario
             if(!singleDictionary.containsKey(pc)) {
-                if(!p.equals("")) {
-                    singleDictionary.put(pc, count++);
-                }
-                word.append(c);
-                p = String.valueOf(c.charAt(0));
-            }else {
-                p = String.valueOf(c.charAt(0));
-                word.append(p);
-            }
-        }
 
+                //verifica si tamanio de current > 1
+                if(c.length() > 1){
+
+                    String temp = "";
+
+                    for(int j = 0; j < c.length(); j++){
+
+                        if (j != 0){
+
+                            if(!singleDictionary.containsKey(pc)){
+                                break;
+                            }else {
+                                temp += String.valueOf(c.charAt(j));
+                                pc = p + temp;
+                            }
+
+                        }if (j == 0) {
+                            pc = p + String.valueOf(c.charAt(j));
+                        }
+
+                    }
+
+
+                }
+                singleDictionary.put(pc,count++);
+                word.append(p);
+                p = c;
+
+            }else {
+                p = pc;
+            }
+
+
+
+        }
+        word.append(p);
         return word.toString();
     }
 

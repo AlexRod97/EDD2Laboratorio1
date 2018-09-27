@@ -1,10 +1,9 @@
 package com.e.edd2laboratorio1;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -19,27 +18,28 @@ public class ListadoActivity extends AppCompatActivity {
     Stack<String> data;
     ListView lvCompresiones;
     Button compBack;
+    static ListadoCompresion listado = new ListadoCompresion();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado);
 
-
-        //Adapter = new playlistUI_Adapter(Main3Activity.this,this.data);
-        //lvPlay.setAdapter(Adapter);
-
        try {
            data = ListadoCompresion.ObtenerDatos();
-       }catch (IOException e){
+       }
+       catch (IOException e){
            e.printStackTrace();
        }
-
+        Start();
     }
 
     private void Start(){
         lvCompresiones = findViewById(R.id.lvCompresiones);
         compBack = findViewById(R.id.btnRegresarCompres);
+
+        adapter = new Compresiones_Adapter(ListadoActivity.this,this.data);
+        lvCompresiones.setAdapter(adapter);
 
         compBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +49,8 @@ public class ListadoActivity extends AppCompatActivity {
                 startActivity(goBack);
             }
         });
+
+
 
     }
 }

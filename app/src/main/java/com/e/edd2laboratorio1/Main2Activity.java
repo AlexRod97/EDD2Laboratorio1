@@ -6,16 +6,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.e.edd2laboratorio1.Classes.LZW;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -69,11 +70,12 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-
-
         btnComprimir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = decompressionFile.getName();
+                name = name.substring(0,name.indexOf("."));
+                compressionLZW.setFilenames(name, decompressionFile.getAbsolutePath());
                 compressionLZW.compress(mainData);
             }
         });

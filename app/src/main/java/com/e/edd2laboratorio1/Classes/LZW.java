@@ -167,6 +167,7 @@ public class LZW {
         try {
             int  j =1, cont = 0;
             BufferedReader br = new BufferedReader((new FileReader(file)));
+            singleDictionary = new LinkedHashMap<>();
             String line, map, ascii;
             StringBuilder text = new StringBuilder();
             FileInputStream fileStream = new FileInputStream(file);

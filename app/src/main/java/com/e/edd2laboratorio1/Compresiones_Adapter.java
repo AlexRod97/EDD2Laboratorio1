@@ -54,7 +54,7 @@ public class Compresiones_Adapter extends BaseAdapter {
         TextView nombreComp = itemView.findViewById(R.id.tvNombreComp);
         TextView ruta = itemView.findViewById(R.id.tvRutaComp);
         TextView razon = itemView.findViewById(R.id.tvRazonComp);
-        TextView factor = itemView.findViewById(R.id.tvRazonComp);
+        TextView factor = itemView.findViewById(R.id.tvFactorComp);
         TextView porcent = itemView.findViewById(R.id.tvPorcentaje);
 
         String data = obtenerStack.get(position);
